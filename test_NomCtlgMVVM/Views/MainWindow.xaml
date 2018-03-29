@@ -1,0 +1,186 @@
+﻿<Window
+    x:Class="test_NomCtlgMVVM.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ignore="http://www.galasoft.ch/ignore"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Каталог номенклатуры"
+    Width="800"
+    Height="600"
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
+    mc:Ignorable="d ignore">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <!--  Определение столбцов  -->
+        <Grid.ColumnDefinitions>
+            <!--  Столбец дерева папок каталога  -->
+            <ColumnDefinition Width="*" />
+            <!--  Столбец разделителя  -->
+            <ColumnDefinition Width="auto" />
+            <!--  Столбец таблиц ном-р/хар-ик  -->
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Определение строк  -->
+        <Grid.RowDefinitions>
+            <!--  Строка поля поиска  -->
+            <RowDefinition Height="auto" />
+            <!--  Строка дерева папок каталога  -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Label>Поиск по:</Label>
+            <!--  Выпадающий список элементов каталога для поиска  -->
+            <ComboBox />
+
+            <Label>Опции поиска:</Label>
+            <!--  Выпадающий список опций поиска  -->
+            <ComboBox />
+
+            <Label>Ищем:</Label>
+            <!--  Поле ввода текста для поиска  -->
+            <ComboBox IsEditable="True" />
+        </StackPanel>
+
+        <!--  Дерево папок каталога ном-ры  -->
+        <TreeView
+            Grid.Row="1"
+            Grid.Column="0"
+            DockPanel.Dock="Left"
+            ItemsSource="{Binding Folders}" />
+
+        <!--  Разделитель дерева папок и таблиц ном-ры/хар-ик  -->
+        <GridSplitter
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch" />
+
+        <!--  Грид для таблиц ном-р/хар-ик  -->
+        <Grid Grid.RowSpan="2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <!--  Строка панели иснтрументов  -->
+                <RowDefinition Height="auto" />
+                <!--  Строка таблицы ном-р  -->
+                <RowDefinition Height="*" />
+                <!--  Сторка разделителя  -->
+                <RowDefinition Height="auto" />
+                <!--  Строка таблицы хар-ик  -->
+                <RowDefinition Height="*" />
+                <!--  Строка панели вспомогательных элементов  -->
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Панель инструментов  -->
+            <ToolBar Grid.Row="0" />
+
+            <!--  Таблица ном-р  -->
+            <DataGrid
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding Nomenclatures}"
+                SelectedItem="{Binding SelectedNomenclature}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding 1CCode}"
+                        Header="Код 1С" />
+
+                    <DataGridTextColumn
+                        Width="5*"
+                        Binding="{Binding Name}"
+                        Header="Номенклатура" />
+
+                    <DataGridComboBoxColumn Width="*" Header="Вид жилы" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsArchive}"
+                        Header="Архив" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsSendTo1C}"
+                        Header="Выгрузить в 1С" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsHasComment}"
+                        Header="Комментарий" />
+
+                    <DataGridTemplateColumn Width="*" Header="Статус" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--  Разделитель таблиц ном-ры и хар-к  -->
+            <GridSplitter
+                Grid.Row="2"
+                Height="3"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
+
+            <!--  Таблица хар-ик  -->
+            <DataGrid
+                Grid.Row="3"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding Characteristics}"
+                SelectedItem="{Binding SelectedCharacteristic}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding 1CCode}"
+                        Header="Код 1С" />
+
+                    <DataGridTextColumn
+                        Width="5*"
+                        Binding="{Binding Name}"
+                        Header="Характеристика" />
+
+                    <DataGridComboBoxColumn Width="*" Header="Вид жилы" />
+
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Color}"
+                        Header="Цвет" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsCustom}"
+                        Header="Нестандартная конструкция" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsArchive}"
+                        Header="Архив" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsSendTo1C}"
+                        Header="Выгрузить в 1С" />
+
+                    <DataGridCheckBoxColumn
+                        Width="*"
+                        Binding="{Binding IsHasComment}"
+                        Header="Комментарий" />
+
+                    <DataGridTemplateColumn Width="*" Header="Статус" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--  Панель вспомогательных элементов  -->
+            <ToolBar Grid.Row="4" />
+        </Grid>
+    </Grid>
+
+</Window>
