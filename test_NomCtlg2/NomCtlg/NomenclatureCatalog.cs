@@ -58,14 +58,11 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("name");
             }
 
-            if (IsFolderNameExists(name))
-            {
-                return null;
-            }
+            name = GetNextAvailableFolderName(name);
 
             var folder = new Folder(name)
             {
-                catalogue = this
+                catalog = this
             };
             Folders.Add(folder);
 
@@ -83,13 +80,31 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("folder");
             }
 
-            if (IsFolderNameExists(folder.Name))
+            folder.Name = GetNextAvailableFolderName(folder.Name);
+
+            folder.catalog = this;
+            Folders.Add(folder);
+        }
+
+        /// <summary>
+        /// Возвращает следующее доступное имя папки
+        /// </summary>
+        /// <param name="name">Проверяемое первоначальное имя</param>
+        /// <returns>Уникальное имя папки</returns>
+        private string GetNextAvailableFolderName(string name)
+        {
+            if (IsFolderNameExists(name))
             {
-                return;
+                var number = 2;
+                var originalName = name;
+
+                do
+                {
+                    name = originalName + " (" + (number++) + ")";
+                } while (IsFolderNameExists(name));
             }
 
-            folder.catalogue = this;
-            Folders.Add(folder);
+            return name;
         }
 
         /// <summary>
@@ -97,10 +112,32 @@ namespace test_NomCtlg2.NomCtlg
         /// </summary>
         /// <param name="name">Проверяемое имя</param>
         /// <returns></returns>
-        internal bool IsFolderNameExists(string name)
+        private bool IsFolderNameExists(string name)
         {
             return Folders.Any(f => f.Name.Equals(name));
         }
+
+        /// <summary>
+        /// Возвращает следующее доступное имя номенклатуры
+        /// </summary>
+        /// <param name="p">Проверяемое первоначальное имя</param>
+        /// <returns>Уникальное имя номенклатуры</returns>
+        internal string GetNextAvailableNomenclatureName(string name)
+        {
+            if (IsNomenclatureNameExists(name))
+            {
+                var number = 2;
+                var originalName = name;
+
+                do
+                {
+                    name = originalName + " (" + (number++) + ")";
+                } while (IsNomenclatureNameExists(name));
+            }
+
+            return name;
+        }
+
 
         /// <summary>
         /// Метод проверки дубликата наименования номенклатуры
@@ -178,7 +215,7 @@ namespace test_NomCtlg2.NomCtlg
         /// <param name="name">Искомое имя</param>
         /// <param name="option">Опции поиска</param>
         /// <returns>Коллекция найденных характеристик</returns>
-        public IEnumerable<Characteristic> GetCharecteristicsByName(string name, CatalogueSearchOption option)
+        public IEnumerable<Characteristic> GetCharacteristicsByName(string name, CatalogueSearchOption option)
         {
             if (name == null)
             {
@@ -278,6 +315,7 @@ namespace test_NomCtlg2.NomCtlg
 
             return folders.ToArray();
         }
+
     }
 
     /// <summary>

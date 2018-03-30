@@ -34,8 +34,10 @@ namespace test_NomCtlgMVVM.ViewModels
             get { return selectedFolder; }
             set
             {
-                Set(ref selectedFolder, value);
-                Nomenclatures = new ObservableCollection<Nomenclature>(selectedFolder.Nomenclatures);
+                if (Set(ref selectedFolder, value))
+                {
+                    Nomenclatures = new ObservableCollection<Nomenclature>(selectedFolder.Nomenclatures);
+                }
             }
         }
 
@@ -55,8 +57,10 @@ namespace test_NomCtlgMVVM.ViewModels
             get { return selectedNomenclature; }
             set
             {
-                Set(ref selectedNomenclature, value);
-                Characteristics = new ObservableCollection<Characteristic>(selectedNomenclature.Characteristics);
+                if (Set(ref selectedNomenclature, value))
+                {
+                    Characteristics = new ObservableCollection<Characteristic>(selectedNomenclature.Characteristics);
+                }
             }
         }
 
@@ -80,9 +84,9 @@ namespace test_NomCtlgMVVM.ViewModels
             }
         }
 
-        public RelayCommand AddFolderCommand { get; set; }
-        public RelayCommand AddNomenclatureCommand { get; set; }
-        public RelayCommand AddCharacteristicCommand { get; set; }
+        public RelayCommand AddFolderCommand { get; private set; }
+        public RelayCommand AddNomenclatureCommand { get; private set; }
+        public RelayCommand AddCharacteristicCommand { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -90,6 +94,10 @@ namespace test_NomCtlgMVVM.ViewModels
         public MainViewModel(IDataService dataService)
         {
             this.dataService = dataService;
+
+            AddFolderCommand = new RelayCommand(AddFolder, CanAddFolder);
+            AddNomenclatureCommand = new RelayCommand(AddNomenclature, CanAddNomenclature);
+            AddCharacteristicCommand = new RelayCommand(AddCharacteristic, CanAddCharacteristic);
 
             var folder = nomCtlg.AddFolder("TEST 1");
             folder.AddFolder("TEST 2");
@@ -108,25 +116,60 @@ namespace test_NomCtlgMVVM.ViewModels
 
             Folders = new ObservableCollection<Folder>(nomCtlg.Folders);
             Nomenclatures = new ObservableCollection<Nomenclature>(nomCtlg.Nomenclatures);
-
-            AddFolderCommand = new RelayCommand(AddFolder);
-            AddNomenclatureCommand = new RelayCommand(AddNomenclature);
-            AddCharacteristicCommand = new RelayCommand(AddCharacteristic);
         }
 
+        /// <summary>
+        /// Добавление папки
+        /// </summary>
         private void AddFolder()
         {
-            nomCtlg.AddFolder("Новая папка");
+            var folder = nomCtlg.AddFolder("Новая папка");
+            Folders.Add(folder);
         }
 
+        /// <summary>
+        /// Указывает, может ли выполниться команда добавления папки
+        /// </summary>
+        /// <returns></returns>
+        private bool CanAddFolder()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Добавление номенклатуры
+        /// </summary>
         private void AddNomenclature()
         {
-            selectedFolder.AddNomenclature("Новая номенклатура");
+            var nomenclature = selectedFolder.AddNomenclature("Новая номенклатура");
+            Nomenclatures.Add(nomenclature);
         }
 
+        /// <summary>
+        /// Указывает, может ли выполниться команда добавления номенклатуры
+        /// </summary>
+        /// <returns></returns>
+        private bool CanAddNomenclature()
+        {
+            return selectedFolder != null;
+        }
+
+        /// <summary>
+        /// Добавление характеристики
+        /// </summary>
         private void AddCharacteristic()
         {
-            selectedNomenclature.AddCharacteristic("Новая характеристика");
+            var characteristic = selectedNomenclature.AddCharacteristic("Новая характеристика");
+            Characteristics.Add(characteristic);
+        }
+
+        /// <summary>
+        /// Указывает, может ли выполниться команда добавления характеристики
+        /// </summary>
+        /// <returns></returns>
+        private bool CanAddCharacteristic()
+        {
+            return selectedNomenclature != null;
         }
 
         ////public override void Cleanup()

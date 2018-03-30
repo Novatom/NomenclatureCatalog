@@ -20,7 +20,7 @@ namespace test_NomCtlg2.NomCtlg
         /// <summary>
         /// Каталог папки
         /// </summary>
-        internal NomenclatureCatalog catalogue;
+        internal NomenclatureCatalog catalog;
 
         /// <summary>
         /// Идентификатор папки
@@ -51,7 +51,7 @@ namespace test_NomCtlg2.NomCtlg
         /// </summary>
         public IEnumerable<Nomenclature> Nomenclatures
         {
-            get { return catalogue.Nomenclatures.Where(n => n.ParentId == this.Id); }
+            get { return catalog.Nomenclatures.Where(n => n.ParentId == this.Id); }
         }
 
         /// <summary>
@@ -86,10 +86,7 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("name");
             }
 
-            if (IsFolderNameExists(name))
-            {
-                return null;
-            }
+            name = GetNextAvailableFolderName(name);
 
             var folder = new Folder(name)
             {
@@ -98,6 +95,27 @@ namespace test_NomCtlg2.NomCtlg
             Folders.Add(folder);
 
             return folder;
+        }
+
+        /// <summary>
+        /// Возвращает следующее доступное имя папки
+        /// </summary>
+        /// <param name="name">Проверяемое первоначальное имя</param>
+        /// <returns>Уникальное имя папки</returns>
+        private string GetNextAvailableFolderName(string name)
+        {
+            if (IsFolderNameExists(name))
+            {
+                var number = 2;
+                var originalName = name;
+
+                do
+                {
+                    name = originalName + " (" + (number++) + ")";
+                } while (IsFolderNameExists(name));
+            }
+
+            return name;
         }
 
         /// <summary>
@@ -111,10 +129,7 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("folder");
             }
 
-            if (IsFolderNameExists(folder.Name))
-            {
-                return;
-            }
+            folder.Name = GetNextAvailableFolderName(folder.Name);
 
             folder.ParentId = this.Id;
             Folders.Add(folder);
@@ -142,17 +157,14 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("name");
             }
 
-            if (catalogue.IsNomenclatureNameExists(name))
-            {
-                return null;
-            }
+            name = catalog.GetNextAvailableNomenclatureName(name);
 
             var nomenclature = new Nomenclature(name)
             {
                 ParentId = this.Id
             };
 
-            catalogue.Nomenclatures.Add(nomenclature);
+            catalog.Nomenclatures.Add(nomenclature);
             return nomenclature;
         }
 
@@ -167,13 +179,10 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("nomenclature");
             }
 
-            if (catalogue.IsNomenclatureNameExists(nomenclature.Name))
-            {
-                return;
-            }
+            nomenclature.Name = catalog.GetNextAvailableNomenclatureName(nomenclature.Name);
 
             nomenclature.ParentId = this.Id;
-            catalogue.Nomenclatures.Add(nomenclature);
+            catalog.Nomenclatures.Add(nomenclature);
         }
 
         /// <summary>

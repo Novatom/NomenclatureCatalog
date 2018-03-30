@@ -179,7 +179,10 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!--  Панель вспомогательных элементов  -->
-            <ToolBar Grid.Row="4" />
+            <ToolBar Grid.Row="4">
+                <Button Command="{Binding AddNomenclatureCommand}" Content="Новая ном-ра" />
+                <Button Command="{Binding AddCharacteristicCommand}" Content="Новая хар-ка" />
+            </ToolBar>
         </Grid>
     </Grid>
 

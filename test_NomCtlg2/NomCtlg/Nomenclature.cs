@@ -72,10 +72,7 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("name");
             }
 
-            if (IsCharacteristicNameExists(name))
-            {
-                return null;
-            }
+            name = GetNextAvailableCharacteristicName(name);
 
             var characteristic = new Characteristic(name)
             {
@@ -97,13 +94,31 @@ namespace test_NomCtlg2.NomCtlg
                 throw new ArgumentNullException("characteristic");
             }
 
-            if (IsCharacteristicNameExists(characteristic.Name))
-            {
-                return;
-            }
+            characteristic.Name = GetNextAvailableCharacteristicName(characteristic.Name);
 
             characteristic.ParentId = this.Id;
             Characteristics.Add(characteristic);
+        }
+
+        /// <summary>
+        /// Возвращает следующее доступное имя характеристики
+        /// </summary>
+        /// <param name="name">Проверяемое первоначальное имя</param>
+        /// <returns>Уникальное имя характеристики</returns>
+        private string GetNextAvailableCharacteristicName(string name)
+        {
+            if (IsCharacteristicNameExists(name))
+            {
+                var number = 2;
+                var originalName = name;
+
+                do
+                {
+                    name = originalName + " (" + (number++) + ")";
+                } while (IsCharacteristicNameExists(name));
+            }
+
+            return name;
         }
 
         /// <summary>
