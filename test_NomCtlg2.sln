@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_NomCtlg2", "test_NomCtlg2\test_NomCtlg2.csproj", "{1234B1B9-C692-4DF4-A58E-6F60867707F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NomenclatureCatalog", "test_NomCtlg2\NomenclatureCatalog.csproj", "{1234B1B9-C692-4DF4-A58E-6F60867707F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_NomCtlgMVVM", "test_NomCtlgMVVM\test_NomCtlgMVVM.csproj", "{0FDC20E7-4704-4373-82F6-29C1058E8257}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NomenclatureCatalogClient", "test_NomCtlgMVVM\NomenclatureCatalogClient.csproj", "{0FDC20E7-4704-4373-82F6-29C1058E8257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44A67175-6DB8-4798-8BE1-577702E7935E}
 	EndGlobalSection
 EndGlobal

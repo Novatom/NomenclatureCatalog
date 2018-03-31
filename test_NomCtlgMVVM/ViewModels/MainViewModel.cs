@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using NomenclatureCatalog;
 using System.Collections.ObjectModel;
-using test_NomCtlg2.NomCtlg;
 using test_NomCtlgMVVM.Models;
 
 namespace test_NomCtlgMVVM.ViewModels
@@ -16,7 +16,7 @@ namespace test_NomCtlgMVVM.ViewModels
     {
         private readonly IDataService dataService;
 
-        private readonly NomenclatureCatalog nomCtlg = new NomenclatureCatalog();
+        private readonly NomenclatureCatalog.NomenclatureCatalog nomCtlg = new NomenclatureCatalog.NomenclatureCatalog();
 
         public ObservableCollection<Folder> folders;
         public ObservableCollection<Folder> Folders

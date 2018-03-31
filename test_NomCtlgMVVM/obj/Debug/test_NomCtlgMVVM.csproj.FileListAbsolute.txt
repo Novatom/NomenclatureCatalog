@@ -1,0 +1,8 @@
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\test_NomCtlgMVVM.csprojResolveAssemblyReference.cache
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\Views\MainWindow.baml
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\Skins\MainSkin.baml
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\Views\MainWindow.g.cs
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\App.g.cs
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\test_NomCtlgMVVM_MarkupCompile.cache
+C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlgMVVM\obj\Debug\test_NomCtlgMVVM_MarkupCompile.lref
