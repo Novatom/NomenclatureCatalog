@@ -75,7 +75,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод добавления подпапки
+        /// Добавление подпапки
         /// </summary>
         /// <param name="name">Наименование добавляемой подпапки</param>
         /// <returns></returns>
@@ -90,7 +90,8 @@ namespace NomenclatureCatalog
 
             var folder = new Folder(name)
             {
-                ParentId = this.Id
+                ParentId = this.Id,
+                catalog = this.catalog
             };
             Folders.Add(folder);
 
@@ -119,7 +120,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод добавления подпапки
+        /// Добавление подпапки
         /// </summary>
         /// <param name="folder">Добавляемая подпапка</param>
         public void AddFolder(Folder folder)
@@ -130,13 +131,14 @@ namespace NomenclatureCatalog
             }
 
             folder.Name = GetNextAvailableFolderName(folder.Name);
-
             folder.ParentId = this.Id;
+            folder.catalog = this.catalog;
+
             Folders.Add(folder);
         }
 
         /// <summary>
-        /// Метод проверки дубликата имени подпапки
+        /// Проверка имени подпапки на дубликат
         /// </summary>
         /// <param name="name">Проверяемое имя</param>
         /// <returns></returns>
@@ -146,7 +148,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод добавления номенклатуры
+        /// Добавление номенклатуры
         /// </summary>
         /// <param name="name">Наименование добавляемой номенклатуры</param>
         /// <returns>Добавленная номенклатура</returns>
@@ -169,7 +171,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Добавления номенклатуры
+        /// Добавление номенклатуры
         /// </summary>
         /// <param name="nomenclature">Добавляемая номенклатура</param>
         public void AddNomenclature(Nomenclature nomenclature)
@@ -223,6 +225,45 @@ namespace NomenclatureCatalog
             }
 
             return folders;
+        }
+
+        /// <summary>
+        /// Поиск папки по её идентификатору
+        /// </summary>
+        /// <param name="id">Искомый идентифактор</param>
+        /// <returns></returns>
+        internal Folder GetFolderById(int id)
+        {
+            Folder result = Folders.SingleOrDefault(f => f.Id == id);
+
+            if (result == null)
+            {
+                foreach (var folder in Folders)
+                {
+                    result = folder.GetFolderById(id);
+
+                    if (result != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;            
+        }
+
+        /// <summary>
+        /// Удаление подпапки
+        /// </summary>
+        /// <param name="folder">Удаляемая подпапка</param>
+        internal bool RemoveFolder(Folder folder)
+        {
+            if (folder == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return folders.Remove(folder);
         }
     }
 }

@@ -100,7 +100,10 @@ namespace test_NomCtlgMVVM.ViewModels
             AddCharacteristicCommand = new RelayCommand(AddCharacteristic, CanAddCharacteristic);
 
             var folder = nomCtlg.AddFolder("TEST 1");
-            folder.AddFolder("TEST 2");
+            var test2folder = folder.AddFolder("TEST 2");
+            var test3folder = folder.AddFolder("TEST 3");
+
+            nomCtlg.RelocateFolder(test3folder, null);
 
             var nom = folder.AddNomenclature("TEST NOM 1");
             nom.AddCharacteristic("TEST CHAR 1.1");
@@ -113,6 +116,10 @@ namespace test_NomCtlgMVVM.ViewModels
             nom.AddCharacteristic("TEST CHAR 3.1");
             nom.AddCharacteristic("TEST CHAR 3.2");
             nom.AddCharacteristic("TEST CHAR 3.3");
+
+            var eee = nomCtlg.GetFolderById(-2);
+
+            nomCtlg.RelocateNomenclature(nom, eee);
 
             Folders = new ObservableCollection<Folder>(nomCtlg.Folders);
             Nomenclatures = new ObservableCollection<Nomenclature>(nomCtlg.Nomenclatures);

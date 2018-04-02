@@ -7,3 +7,10 @@ C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlg2\obj\Debug\Nomenclat
 C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlg2\obj\Debug\NomenclatureCatalog.pdb
 C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlg2\bin\Debug\NomenclatureCatalog.dll.CodeAnalysisLog.xml
 C:\Users\Nova\Source\Repos\NomenclatureCatalog\test_NomCtlg2\bin\Debug\NomenclatureCatalog.dll.lastcodeanalysissucceeded
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\bin\Debug\NomenclatureCatalog.dll
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\bin\Debug\NomenclatureCatalog.pdb
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\obj\Debug\NomenclatureCatalog.Properties.Resources.resources
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\obj\Debug\NomenclatureCatalog.csproj.GenerateResource.Cache
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\obj\Debug\NomenclatureCatalog.dll
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\obj\Debug\NomenclatureCatalog.pdb
+C:\Users\novav\Desktop\NomCtlg\trunk\test_NomCtlg2\obj\Debug\NomenclatureCatalog.csprojResolveAssemblyReference.cache

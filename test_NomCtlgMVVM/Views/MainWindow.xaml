@@ -57,7 +57,13 @@
             Grid.Row="1"
             Grid.Column="0"
             DockPanel.Dock="Left"
-            ItemsSource="{Binding Folders}" />
+            ItemsSource="{Binding Folders}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Folders}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
 
         <!--  Разделитель дерева папок и таблиц ном-ры/хар-ик  -->
         <GridSplitter

@@ -48,7 +48,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод добавления папки
+        /// Добавление папки
         /// </summary>
         /// <param name="name">Наименование добавляемой папки</param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод добавления папки
+        /// Добавление папки
         /// </summary>
         /// <param name="folder">Добавляемая папка</param>
         public void AddFolder(Folder folder)
@@ -82,8 +82,9 @@ namespace NomenclatureCatalog
             }
 
             folder.Name = GetNextAvailableFolderName(folder.Name);
-
+            folder.ParentId = 0;
             folder.catalog = this;
+
             Folders.Add(folder);
         }
 
@@ -109,7 +110,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод проверки дубликата имени папки
+        /// Проверка имени папки на дубликат
         /// </summary>
         /// <param name="name">Проверяемое имя</param>
         /// <returns></returns>
@@ -141,7 +142,7 @@ namespace NomenclatureCatalog
 
 
         /// <summary>
-        /// Метод проверки дубликата наименования номенклатуры
+        /// Проверки наименования номенклатуры на дубликат
         /// </summary>
         /// <param name="name">Проверяемое имя</param>
         /// <returns></returns>
@@ -151,7 +152,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод получения номенклатуры по идентификатору
+        /// Получение номенклатуры по идентификатору
         /// </summary>
         /// <param name="id">Искомый идентификатор номенклатуры</param>
         /// <returns></returns>
@@ -161,7 +162,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Метод получения характеристики по идентификатору
+        /// Получение характеристики по идентификатору
         /// </summary>
         /// <param name="id">Искомый идентификатор характеристики</param>
         /// <returns></returns>
@@ -317,6 +318,78 @@ namespace NomenclatureCatalog
             return folders.ToArray();
         }
 
+        /// <summary>
+        /// Перемещение папки в другую папку
+        /// </summary>
+        /// <param name="folder">Перемещаемая папка</param>
+        /// <param name="toFolder">Папка назначения</param>
+        public void RelocateFolder(Folder folder, Folder toFolder)
+        {
+            if (folder == null)
+            {
+                throw new ArgumentNullException("folder");
+            }
+
+            var parentFolder = GetFolderById(folder.ParentId);
+            if (parentFolder != null)
+            {
+                parentFolder.RemoveFolder(folder);
+
+                if (toFolder == null)
+                {
+                    AddFolder(folder);
+                }
+                else
+                {
+                    toFolder.AddFolder(folder);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Перемещение номенклатуры в другую папку
+        /// </summary>
+        /// <param name="nomenclature">Перемещаемая номенклатура</param>
+        /// <param name="toFolder">Папка назначения</param>
+        public void RelocateNomenclature(Nomenclature nomenclature, Folder toFolder)
+        {
+            if (nomenclature == null)
+            {
+                throw new ArgumentNullException("nomenclature");
+            }
+
+            if (toFolder == null)
+            {
+                throw new ArgumentNullException("toFolder");
+            }
+
+            nomenclature.ParentId = toFolder.Id;
+        }
+
+        /// <summary>
+        /// Поиск папки по её идентификатору
+        /// </summary>
+        /// <param name="id">Искомый идентификатор</param>
+        /// <returns></returns>
+        public Folder GetFolderById(int id)
+        {
+            Folder result = Folders.SingleOrDefault(f => f.Id == id);
+
+            if (result == null)
+            {
+                foreach (var folder in Folders)
+                {
+                    result = folder.GetFolderById(id);
+
+                    if (result != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 
     /// <summary>
