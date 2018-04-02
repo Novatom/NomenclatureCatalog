@@ -60,7 +60,7 @@
             ItemsSource="{Binding Folders}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Folders}">
-                    <TextBlock Text="{Binding Name}" />
+                    <TreeViewItem Header="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

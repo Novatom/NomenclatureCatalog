@@ -58,7 +58,7 @@ namespace test_NomCtlgMVVM {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/NomCtlgClient;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/NomenclatureCatalogClient;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

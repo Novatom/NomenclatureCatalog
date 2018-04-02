@@ -18,6 +18,11 @@ namespace NomenclatureCatalog
         private static int nextNewId;
 
         /// <summary>
+        /// Указывает, что папка была изменена
+        /// </summary>
+        public bool IsChanged { get; private set; }
+
+        /// <summary>
         /// Каталог папки
         /// </summary>
         internal NomenclatureCatalog catalog;
@@ -27,15 +32,39 @@ namespace NomenclatureCatalog
         /// </summary>
         public int Id { get; set; }
 
+        private int parentId;
         /// <summary>
         /// Идентификатор родителя (надпапки)
         /// </summary>
-        public int ParentId { get; set; }
+        public int ParentId
+        {
+            get { return parentId; }
+            set
+            {
+                if (value != parentId)
+                {
+                    parentId = value;
+                    IsChanged = true;
+                }
+            }
+        }
 
+        private string name;
         /// <summary>
         /// Наименование папки
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (value != name)
+                {
+                    name = value;
+                    IsChanged = true;
+                }
+            }
+        }
 
         private List<Folder> folders;
         /// <summary>
@@ -60,7 +89,7 @@ namespace NomenclatureCatalog
         private Folder()
         {
             Id = --nextNewId;
-            Name = string.Empty;
+            name = string.Empty;
             folders = new List<Folder>();
         }
 

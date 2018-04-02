@@ -17,6 +17,11 @@ namespace NomenclatureCatalog
         private static int nextNewId;
 
         /// <summary>
+        /// Указывает, что номенклатура изменилась
+        /// </summary>
+        public bool IsChanged { get; private set; }
+
+        /// <summary>
         /// Идентификатор номенклатуры
         /// </summary>
         public int Id { get; set; }
@@ -26,10 +31,22 @@ namespace NomenclatureCatalog
         /// </summary>
         public int ParentId { get; set; }
 
+        private string name;
         /// <summary>
         /// Наименование номенклатуры
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (value != name)
+                {
+                    name = value;
+                    IsChanged = true;
+                }
+            }
+        }
 
         private List<Characteristic> characteristics;
         /// <summary>
@@ -46,7 +63,7 @@ namespace NomenclatureCatalog
         private Nomenclature()
         {
             Id = --nextNewId;
-            Name = string.Empty;
+            name = string.Empty;
             characteristics = new List<Characteristic>();
         }
 

@@ -393,7 +393,7 @@ namespace NomenclatureCatalog
         }
 
         /// <summary>
-        /// Добавление номенклатуры каталог
+        /// Добавление номенклатуры в каталог
         /// </summary>
         /// <param name="nomenclature">Добавляемая номеклатура</param>
         internal void AddNomenclature(Nomenclature nomenclature)
