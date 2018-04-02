@@ -118,7 +118,6 @@ namespace test_NomCtlgMVVM.ViewModels
             nom.AddCharacteristic("TEST CHAR 3.3");
 
             var eee = nomCtlg.GetFolderById(-2);
-
             nomCtlg.RelocateNomenclature(nom, eee);
 
             Folders = new ObservableCollection<Folder>(nomCtlg.Folders);

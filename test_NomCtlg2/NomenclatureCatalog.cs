@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,18 @@ namespace NomenclatureCatalog
         /// <summary>
         /// Коллекция корневых папок каталога
         /// </summary>
-        public IList<Folder> Folders
+        public ReadOnlyCollection<Folder> Folders
         {
-            get { return folders; }
+            get { return folders.AsReadOnly(); }
         }
 
         private List<Nomenclature> nomenclatures;
         /// <summary>
         /// Коллекция всех номенклатур каталога
         /// </summary>
-        public IList<Nomenclature> Nomenclatures
+        public ReadOnlyCollection<Nomenclature> Nomenclatures
         {
-            get { return nomenclatures; }
+            get { return nomenclatures.AsReadOnly(); }
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace NomenclatureCatalog
             {
                 catalog = this
             };
-            Folders.Add(folder);
+            folders.Add(folder);
 
             return folder;
         }
@@ -85,7 +86,7 @@ namespace NomenclatureCatalog
             folder.ParentId = 0;
             folder.catalog = this;
 
-            Folders.Add(folder);
+            folders.Add(folder);
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace NomenclatureCatalog
         /// <param name="name">Искомое имя</param>
         /// <param name="option">Опции поиска</param>
         /// <returns>Коллекция найденных номенклатур</returns>
-        public IEnumerable<Nomenclature> GetNomenclaturesByName(string name, CatalogueSearchOption option)
+        public IEnumerable<Nomenclature> GetNomenclaturesByName(string name, CatalogSearchOption option)
         {
             if (name == null)
             {
@@ -188,19 +189,19 @@ namespace NomenclatureCatalog
 
             switch (option)
             {
-                case CatalogueSearchOption.Equals:
+                case CatalogSearchOption.Equals:
                     nomenclatures = Nomenclatures.Where(n => n.Name.Equals(name));
                     break;
 
-                case CatalogueSearchOption.Contains:
+                case CatalogSearchOption.Contains:
                     nomenclatures = Nomenclatures.Where(n => n.Name.Contains(name));
                     break;
 
-                case CatalogueSearchOption.StartsWith:
+                case CatalogSearchOption.StartsWith:
                     nomenclatures = Nomenclatures.Where(n => n.Name.StartsWith(name));
                     break;
 
-                case CatalogueSearchOption.EndsWith:
+                case CatalogSearchOption.EndsWith:
                     nomenclatures = Nomenclatures.Where(n => n.Name.EndsWith(name));
                     break;
 
@@ -217,7 +218,7 @@ namespace NomenclatureCatalog
         /// <param name="name">Искомое имя</param>
         /// <param name="option">Опции поиска</param>
         /// <returns>Коллекция найденных характеристик</returns>
-        public IEnumerable<Characteristic> GetCharacteristicsByName(string name, CatalogueSearchOption option)
+        public IEnumerable<Characteristic> GetCharacteristicsByName(string name, CatalogSearchOption option)
         {
             if (name == null)
             {
@@ -228,19 +229,19 @@ namespace NomenclatureCatalog
 
             switch (option)
             {
-                case CatalogueSearchOption.Equals:
+                case CatalogSearchOption.Equals:
                     result = characteristics.Where(c => c.Name.Equals(name));
                     break;
 
-                case CatalogueSearchOption.Contains:
+                case CatalogSearchOption.Contains:
                     result = characteristics.Where(c => c.Name.Contains(name));
                     break;
 
-                case CatalogueSearchOption.StartsWith:
+                case CatalogSearchOption.StartsWith:
                     result = characteristics.Where(c => c.Name.StartsWith(name));
                     break;
 
-                case CatalogueSearchOption.EndsWith:
+                case CatalogSearchOption.EndsWith:
                     result = characteristics.Where(c => c.Name.EndsWith(name));
                     break;
 
@@ -279,7 +280,7 @@ namespace NomenclatureCatalog
         /// <param name="name">Искомое имя</param>
         /// <param name="option">Опции поиска</param>
         /// <returns>Коллекция найденных папок</returns>
-        public IEnumerable<Folder> GetFoldersByName(string name, CatalogueSearchOption option)
+        public IEnumerable<Folder> GetFoldersByName(string name, CatalogSearchOption option)
         {
             if (name == null)
             {
@@ -295,19 +296,19 @@ namespace NomenclatureCatalog
 
             switch (option)
             {
-                case CatalogueSearchOption.Equals:
+                case CatalogSearchOption.Equals:
                     folders.AddRange(Folders.Where(f => f.Name.Equals(name)));
                     break;
 
-                case CatalogueSearchOption.Contains:
+                case CatalogSearchOption.Contains:
                     folders.AddRange(Folders.Where(f => f.Name.Contains(name)));
                     break;
 
-                case CatalogueSearchOption.StartsWith:
+                case CatalogSearchOption.StartsWith:
                     folders.AddRange(Folders.Where(f => f.Name.StartsWith(name)));
                     break;
 
-                case CatalogueSearchOption.EndsWith:
+                case CatalogSearchOption.EndsWith:
                     folders.AddRange(Folders.Where(f => f.Name.EndsWith(name)));
                     break;
 
@@ -390,12 +391,26 @@ namespace NomenclatureCatalog
 
             return result;
         }
+
+        /// <summary>
+        /// Добавление номенклатуры каталог
+        /// </summary>
+        /// <param name="nomenclature">Добавляемая номеклатура</param>
+        internal void AddNomenclature(Nomenclature nomenclature)
+        {
+            if (nomenclature == null)
+            {
+                throw new ArgumentNullException("nomenclature");
+            }
+
+            nomenclatures.Add(nomenclature);
+       }
     }
 
     /// <summary>
     /// Перечисление опций поиска элементов в каталоге номенклатуры
     /// </summary>
-    public enum CatalogueSearchOption
+    public enum CatalogSearchOption
     {
         /// <summary>
         /// Элемент соответствует

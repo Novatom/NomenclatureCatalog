@@ -166,7 +166,7 @@ namespace NomenclatureCatalog
                 ParentId = this.Id
             };
 
-            catalog.Nomenclatures.Add(nomenclature);
+            catalog.AddNomenclature(nomenclature);
             return nomenclature;
         }
 
@@ -184,7 +184,7 @@ namespace NomenclatureCatalog
             nomenclature.Name = catalog.GetNextAvailableNomenclatureName(nomenclature.Name);
 
             nomenclature.ParentId = this.Id;
-            catalog.Nomenclatures.Add(nomenclature);
+            catalog.AddNomenclature(nomenclature);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace NomenclatureCatalog
         /// <param name="name">Искомое имя</param>
         /// <param name="option">Опции поиска</param>
         /// <returns>Коллекция найденных папок</returns>
-        internal IEnumerable<Folder> GetFoldersByName(string name, CatalogueSearchOption option)
+        internal IEnumerable<Folder> GetFoldersByName(string name, CatalogSearchOption option)
         {
             var folders = new List<Folder>();
 
@@ -204,19 +204,19 @@ namespace NomenclatureCatalog
 
             switch (option)
             {
-                case CatalogueSearchOption.Equals:
+                case CatalogSearchOption.Equals:
                     folders.AddRange(Folders.Where(f => f.Name.Equals(name)));
                     break;
 
-                case CatalogueSearchOption.Contains:
+                case CatalogSearchOption.Contains:
                     folders.AddRange(Folders.Where(f => f.Name.Contains(name)));
                     break;
 
-                case CatalogueSearchOption.StartsWith:
+                case CatalogSearchOption.StartsWith:
                     folders.AddRange(Folders.Where(f => f.Name.StartsWith(name)));
                     break;
 
-                case CatalogueSearchOption.EndsWith:
+                case CatalogSearchOption.EndsWith:
                     folders.AddRange(Folders.Where(f => f.Name.EndsWith(name)));
                     break;
 
